@@ -7,8 +7,8 @@ variable "ami-id" {
 variable "instance-type" {
     type = map
     default = {
-        "default" : "t2.micro",
-        "staging" : "t2.small",
+        "default" : "t2.micro"
+        "staging" : "t2.small"
         "production" : "t2.medium"
     }
     description = "instance type based on environment variables"
@@ -16,6 +16,12 @@ variable "instance-type" {
 
 variable "application-server-sg" {
     type = string
-    default = ""
+    default = "sg-02188a18081f8f208"
     description = "application server security group name"
+}
+
+variable "userdatapath" {
+    type = string
+    default = "./../userdata/bootstrap.sh"
+    description = "bootstrapping script path"
 }

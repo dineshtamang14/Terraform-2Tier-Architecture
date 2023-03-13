@@ -4,18 +4,13 @@ module "shared_vars" {
 
 # launch template for application server
 resource "aws_launch_template" "App-LC_13_2023" {
-  name = "foo"
+  name = "App-LC_13_2023_${module.shared_vars.env_suffix}"
 
   block_device_mappings {
     device_name = "/dev/sda1"
-
     ebs {
       volume_size = 8
     }
-  }
-
-  credit_specification {
-    cpu_credits = "standard"
   }
 
   # ec2 stop, terminate protection
@@ -25,31 +20,31 @@ resource "aws_launch_template" "App-LC_13_2023" {
   ebs_optimized = false
 
   iam_instance_profile {
-    name = "test"
+    name = "ec2_instance_role_prod"
   }
 
-  image_id = "ami-test"
+  image_id = "${var.ami-id}"
 
   instance_initiated_shutdown_behavior = "terminate"
 
-  instance_type = "t2.micro"
+  instance_type = "${var.instance-type[module.shared_vars.env_suffix]}"
 
-  key_name = "test"
+  key_name = "application-server-key"
 
   network_interfaces {
     associate_public_ip_address = true
   }
 
-  vpc_security_group_ids = ["sg-12345678"]
+  vpc_security_group_ids = ["${var.application-server-sg}"]
 
   tag_specifications {
     resource_type = "instance"
 
     tags = {
       Name = "application server"
-      Environment = "production"
+      Environment = "${module.shared_vars.env_suffix}"
     }
   }
 
-  user_data = filebase64("${path.module}/example.sh")
+  user_data = filebase64("${var.userdatapath}")
 }

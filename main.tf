@@ -25,3 +25,14 @@ module "listener" {
   target-group = "${module.loadbalancer_module.target_group}"  
 }
 
+# importing launch template
+module "launchtemplate" {
+  source = "./launch-template"
+}
+
+# importing auto scaling group
+module "autoscaling-group" {
+  source "./auto-scaling-group"
+  launchtemplate-name = "${module.launchtemplate.launchtemplate-name}"
+  target-group = "${module.loadbalancer_module.target_group}"
+}
