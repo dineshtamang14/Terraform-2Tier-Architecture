@@ -1,7 +1,14 @@
-output "lb_url" {
+output "alb_url" {
   value = "${aws_lb.prodapp-alb.dns_name}"
   sensitive = false
   description = "application load balancer url"
+  depends_on = []
+}
+
+output "alb_arn" {
+  value = "${aws_lb.prodapp-alb.arn}"
+  sensitive = false
+  description = "application load balancer arn"
   depends_on = []
 }
 

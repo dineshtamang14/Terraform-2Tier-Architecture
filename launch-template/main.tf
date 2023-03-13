@@ -3,8 +3,8 @@ module "shared_vars" {
 }
 
 # launch template for application server
-resource "aws_launch_template" "App-LC_13_2023" {
-  name = "App-LC_13_2023_${module.shared_vars.env_suffix}"
+resource "aws_launch_template" "App-LT_13_2023" {
+  name = "App-LT_13_2023_${module.shared_vars.env_suffix}"
 
   block_device_mappings {
     device_name = "/dev/sda1"
@@ -24,18 +24,20 @@ resource "aws_launch_template" "App-LC_13_2023" {
   }
 
   image_id = "${var.ami-id}"
-
   instance_initiated_shutdown_behavior = "terminate"
-
   instance_type = "${var.instance-type[module.shared_vars.env_suffix]}"
-
+  # vpc_security_group_ids = ["${var.application-server-sg}"]
   key_name = "application-server-key"
+
+  monitoring {
+    enabled = false
+  }
 
   network_interfaces {
     associate_public_ip_address = true
+    delete_on_termination       = true
+    security_groups = ["${var.application-server-sg}"]
   }
-
-  vpc_security_group_ids = ["${var.application-server-sg}"]
 
   tag_specifications {
     resource_type = "instance"
