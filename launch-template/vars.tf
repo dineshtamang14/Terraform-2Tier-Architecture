@@ -22,6 +22,6 @@ variable "application-server-sg" {
 
 variable "userdatapath" {
     type = string
-    default = "E:\\DevOps\\terraform-lab\\Terraform-3-Tier-Architecture\\userdata\\bootstrap.sh"
+    default = "/home/dinesh/Desktop/terraform-lab/terraform-3tier-arch/userdata/bootstrap.sh"
     description = "bootstrapping script path"
 }

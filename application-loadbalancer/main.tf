@@ -25,12 +25,12 @@ resource "aws_lb_target_group" "App-Tg-Prod" {
   vpc_id = "${module.shared_vars.vpcid}"
 
   health_check {
-    interval = "30"
+    interval = "20"
     path = "/"
     protocol = "HTTP"
     healthy_threshold = "2"
     unhealthy_threshold = "5"
-    timeout = "28"
+    timeout = "15"
     matcher = "200"
   }
 }
