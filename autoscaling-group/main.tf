@@ -4,11 +4,11 @@ module "shared_vars" {
 
 resource "aws_autoscaling_group" "app_asg" {
   name = "App_ASG_${module.shared_vars.env_suffix}"
-  max_size = 3
+  max_size = 2
   min_size = 1
   health_check_grace_period = 400
   health_check_type = "ELB"
-  desired_capacity = 2
+  desired_capacity = 1
   force_delete = true
   target_group_arns = ["${var.target-group}"]
   termination_policies = ["OldestInstance"]
