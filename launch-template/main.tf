@@ -4,7 +4,7 @@ module "shared_vars" {
 
 # launch template for application server
 resource "aws_launch_template" "App-LT_13_2023" {
-  name = "App-LT_13_2023_${module.shared_vars.env_suffix}"
+  name = "app-lt_13_2023_${module.shared_vars.env_suffix}"
 
   block_device_mappings {
     device_name = "/dev/sda1"

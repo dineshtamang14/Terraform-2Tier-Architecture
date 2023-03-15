@@ -4,7 +4,7 @@ module "shared_vars" {
 
 # application load balancer 
 resource "aws_lb" "prodapp-alb" {
-  name = "App-ALB-${module.shared_vars.env_suffix}"
+  name = "app-alb-${module.shared_vars.env_suffix}"
   internal = false 
   load_balancer_type = "application"
   security_groups = ["${var.ExternalElbSGId}"]
@@ -19,7 +19,7 @@ resource "aws_lb" "prodapp-alb" {
 
 # Target Groups for application load balancer
 resource "aws_lb_target_group" "App-Tg-Prod" {
-  name = "App-Tg-${module.shared_vars.env_suffix}"
+  name = "app-tg-${module.shared_vars.env_suffix}"
   port = 80
   protocol = "HTTP"
   vpc_id = "${module.shared_vars.vpcid}"

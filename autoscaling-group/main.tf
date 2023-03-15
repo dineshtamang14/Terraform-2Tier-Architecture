@@ -3,7 +3,7 @@ module "shared_vars" {
 }
 
 resource "aws_autoscaling_group" "app_asg" {
-  name = "App_ASG_${module.shared_vars.env_suffix}"
+  name = "app_asg_${module.shared_vars.env_suffix}"
   max_size = 2
   min_size = 1
   health_check_grace_period = 400

@@ -47,6 +47,7 @@ module "autoscaling-group" {
   latest_version = "${module.launchtemplate.latest_version}"
 
   depends_on = [
-    module.launchtemplate
+    module.launchtemplate,
+    module.loadbalancer_module
   ]
 }

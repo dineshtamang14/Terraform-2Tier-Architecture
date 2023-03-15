@@ -4,7 +4,7 @@ sudo su
 yum update -y
 amazon-linux-extras install epel -y
 yum update -y
-yum install nginx -y
+yum install nginx unzip -y
 cd /usr/share/nginx/html
 rm -rf *
 cd ..
