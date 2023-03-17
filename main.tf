@@ -13,10 +13,19 @@ provider "aws" {  # Recommended way of defining provider
     // profile = "Dinesh-Tamang"
 }
 
+# importing rds for wordpress
+module "rds" {
+  source = "./RDS"
+}
 
 # importing launch template
 module "launchtemplate" {
   source = "./launch-template"
+  rds_arn = "${module.rds.rds_instance_arn}"
+  
+  depends_on = [
+    module.rds
+  ]
 }
 
 # importing load balancer module
@@ -24,7 +33,8 @@ module "loadbalancer_module" {
   source = "./application-loadbalancer"
 
   depends_on = [
-    module.launchtemplate
+    module.launchtemplate,
+    module.rds
   ]
 }
 
@@ -34,7 +44,8 @@ module "listener" {
   application-lb = "${module.loadbalancer_module.alb_arn}"
   target-group = "${module.loadbalancer_module.target_group}" 
   depends_on = [
-    module.loadbalancer_module
+    module.loadbalancer_module,
+    module.rds
   ]
 }
 
@@ -48,6 +59,7 @@ module "autoscaling-group" {
 
   depends_on = [
     module.launchtemplate,
-    module.loadbalancer_module
+    module.loadbalancer_module,
+    module.rds
   ]
 }

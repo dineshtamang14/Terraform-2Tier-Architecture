@@ -1,7 +1,7 @@
 variable "ami-id" {
     type = string
-    default = "ami-005f9685cb30f234b"
-    description = "amazon linux 2 ami id"
+    default = "ami-09cd747c78a9add63"
+    description = "ubuntu 20.04 ami id"
 }
 
 variable "instance-type" {
@@ -25,3 +25,17 @@ variable "userdatapath" {
     default = "/home/dinesh/Desktop/terraform-lab/terraform-3tier-arch/userdata/bootstrap.sh"
     description = "bootstrapping script path"
 }
+
+variable "db_username" {
+    type = string
+    default = "admin"
+    sensitive = true
+}
+
+variable "db_password" {
+    type = string
+    default = "admin123"
+    sensitive = true
+}
+
+variable "rds_arn" {}

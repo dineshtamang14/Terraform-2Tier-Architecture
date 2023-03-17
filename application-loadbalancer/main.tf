@@ -22,7 +22,15 @@ resource "aws_lb_target_group" "App-Tg-Prod" {
   name = "app-tg-${module.shared_vars.env_suffix}"
   port = 80
   protocol = "HTTP"
+  target_type = "instance"
   vpc_id = "${module.shared_vars.vpcid}"
+
+  # Disable round robin
+
+  stickiness {
+    type    = "lb_cookie"
+    enabled = true
+  }
 
   health_check {
     interval = "20"
