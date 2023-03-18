@@ -22,25 +22,35 @@ define( 'DB_COLLATE', 'utf8_unicode_ci );
 EOF
 
 cat > /etc/nginx/sites-available/wordpress.conf <<EOF
-upstream php-handler {
-        server unix:/var/run/php/php7.4-fpm.sock;
-}
 server {
-        listen 80;
-        server_name _;
-        root /var/www/wordpress;
-        index index.php;
-        location / {
-                try_files $uri $uri/ /index.php?$args;
-        }
-        location ~ \.php$ {
-                include snippets/fastcgi-php.conf;
-                fastcgi_pass php-handler;
-        }
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/wordpress;
+
+	# Add index.php to the list if you are using PHP
+	index index.php;
+
+	server_name _;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+	
+		# With php-fpm (or other unix sockets):
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+		# With php-cgi (or other tcp sockets):
+		# fastcgi_pass 127.0.0.1:9000;
+	}
 }
 EOF
 
 ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-available/default
+rm /etc/nginx/sites-enabled/default
 cd /var/www
 sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -xzvf latest.tar.gz
