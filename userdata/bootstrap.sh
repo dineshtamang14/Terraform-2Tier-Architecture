@@ -11,16 +11,6 @@ sudo su
 apt update && apt upgrade -y
 apt install nginx php-fpm php-mysql php-curl php-dom php-mbstring php-imagick php-zip php-gd wget -y
 
-cat > /var/www/wordpress/wp-config.php <<EOF
-<?php
-define( 'DB_NAME', '${db_name}' );
-define( 'DB_USER', '${db_username}' );
-define( 'DB_PASSWORD', '${db_password}' );
-define( 'DB_HOST', '${db_endpoint}' );
-define( 'DB_CHARSET', 'utf8' );
-define( 'DB_COLLATE', 'utf8_unicode_ci );
-EOF
-
 cat > /etc/nginx/sites-available/wordpress.conf <<EOF
 server {
 	listen 80 default_server;
@@ -55,6 +45,18 @@ cd /var/www
 sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -xzvf latest.tar.gz
 sudo rm latest.tar.gz
+
+cat > /var/www/wordpress/wp-config.php <<EOF
+<?php
+define( 'DB_NAME', '${db_name}' );
+define( 'DB_USER', '${db_username}' );
+define( 'DB_PASSWORD', '${db_password}' );
+define( 'DB_HOST', '${db_endpoint}' );
+define( 'DB_CHARSET', 'utf8' );
+define( 'DB_COLLATE', 'utf8_unicode_ci );
+EOF
+
+rm wordpress/wp-config-sample.php
 chown -R www-data:www-data wordpress
 find wordpress/ -type d -exec chmod 755 {} \;
 find wordpress/ -type f -exec chmod 644 {} \;
