@@ -9,7 +9,7 @@ read -s -p "Enter RDS password: " db_password
 # Install and configure WordPress
 sudo su
 apt update && apt upgrade -y
-apt install nginx php-fpm php-mysql php-curl php-dom php-mbstring php-imagick php-zip php-gd -y
+apt install nginx php-fpm php-mysql php-curl php-dom php-mbstring php-imagick php-zip php-gd wget -y
 
 cat > /var/www/wordpress/wp-config.php <<EOF
 <?php
@@ -41,10 +41,10 @@ server {
 EOF
 
 ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
-curl -O https://wordpress.org/latest.tar.gz
-tar -zxvf latest.tar.gz -C /var/www --strip-components=1
-rm /var/www/latest.tar.gz
 cd /var/www
+sudo wget https://wordpress.org/latest.tar.gz
+sudo tar -xzvf latest.tar.gz
+sudo rm latest.tar.gz
 chown -R www-data:www-data wordpress
 find wordpress/ -type d -exec chmod 755 {} \;
 find wordpress/ -type f -exec chmod 644 {} \;
